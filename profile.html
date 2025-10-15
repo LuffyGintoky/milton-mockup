@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Inter%3Awght%40400%3B500%3B600%3B700%3B900&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <title>MineSafe - Ficha de Conductor</title>
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .material-icons {
+            font-family: 'Material Icons'; font-weight: normal; font-style: normal;
+            font-size: 24px; display: inline-block; line-height: 1;
+            text-transform: none; letter-spacing: normal; word-wrap: normal;
+            white-space: nowrap; direction: ltr;
+            -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+            -moz-osx-font-smoothing: grayscale; font-feature-settings: 'liga';
+        }
+        /* Estilos para tabs activas e inactivas */
+        .tab-button.active {
+            border-color: #2563eb; /* blue-600 */
+            color: #2563eb; /* blue-600 */
+            background-color: #eff6ff; /* blue-50 */
+        }
+        .tab-button {
+            border-bottom-width: 2px;
+            border-color: transparent;
+        }
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -6px; /* Ajusta para alinear con el círculo */
+            top: 8px; /* Ajusta la posición vertical de la línea */
+            bottom: -8px; /* Asegura que la línea conecte al siguiente item si es necesario */
+            width: 2px;
+            background-color: #cbd5e1; /* slate-300 */
+        }
+        .timeline-item:last-child:before {
+            display: none; /* No mostrar línea para el último elemento */
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -11px; /* Centra el círculo sobre la línea */
+            top: 6px;   /* Alinea verticalmente con el texto */
+        }
+    </style>
+</head>
+<body class="bg-slate-100" style='font-family: Inter, "Noto Sans", sans-serif;'>
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Contenedor para el navbar estandarizado -->
+            <div id="navbar-container"></div>
+
+            <main class="flex-1 px-6 py-8 md:px-10 lg:px-12">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Breadcrumbs -->
+                    <nav aria-label="Breadcrumb" class="mb-6">
+                        <ol class="flex items-center gap-1.5 text-sm text-slate-500">
+                            <li><a href="#" class="hover:text-blue-600 transition-colors">Panel de Control</a></li>
+                            <li><span class="material-icons text-base">chevron_right</span></li>
+                            <li><a href="#" class="hover:text-blue-600 transition-colors">Conductores</a></li>
+                            <li><span class="material-icons text-base">chevron_right</span></li>
+                            <li class="font-medium text-slate-700" aria-current="page">Juan Alberto Pérez Gómez</li>
+                        </ol>
+                    </nav>
+
+                    <!-- Perfil del Conductor y Estado de Habilitación -->
+                    <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg mb-8">
+                        <div class="flex flex-col md:flex-row items-start gap-6">
+                            <div class="shrink-0">
+                                <img class="h-32 w-32 md:h-40 md:w-40 rounded-full object-cover border-4 border-slate-200" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=120&q=80" alt="Foto de Juan Pérez" />
+                            </div>
+                            <div class="flex-grow">
+                                <div class="flex flex-col sm:flex-row justify-between items-start">
+                                    <div>
+                                        <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Juan Alberto Pérez Gómez</h2>
+                                        <p class="text-slate-600 text-base md:text-lg">Operador de Camión Minero</p>
+                                    </div>
+                                    <div class="mt-3 sm:mt-0 shrink-0">
+                                        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-green-100 text-green-700 border border-green-300">
+                                            <span class="material-icons text-lg">check_circle</span> Habilitado para Operar
+                                        </span>
+                                        <!-- Ejemplo NO HABILITADO:
+                                        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-red-100 text-red-700 border border-red-300">
+                                            <span class="material-icons text-lg">cancel</span> No Habilitado
+                                        </span>
+                                         -->
+                                    </div>
+                                </div>
+                                <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-3 text-sm text-slate-700">
+                                    <div class="flex items-center gap-2"><span class="material-icons text-slate-500 text-lg">badge</span> DNI: 78945612</div>
+                                    <div class="flex items-center gap-2"><span class="material-icons text-slate-500 text-lg">drive_eta</span> Licencia: A-IIIB (Vence: 12/2025)</div>
+                                    <div class="flex items-center gap-2"><span class="material-icons text-slate-500 text-lg">call</span> Contacto: 987654321</div>
+                                    <div class="flex items-center gap-2"><span class="material-icons text-slate-500 text-lg">business</span> Unidad: Mina Esperanza</div>
+                                    <div class="flex items-center gap-2"><span class="material-icons text-slate-500 text-lg">assignment_ind</span> Código: OP-0123</div>
+                                    <div class="flex items-center gap-2"><span class="material-icons text-slate-500 text-lg">today</span> Ingreso: 15/03/2018</div>
+                                </div>
+                                <div class="mt-5 flex flex-wrap gap-3">
+                                    <button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm">
+                                        <span class="material-icons text-lg">edit</span> Editar Ficha
+                                    </button>
+                                    <button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-slate-100 text-slate-700 text-sm font-semibold hover:bg-slate-200 transition-colors border border-slate-300">
+                                        <span class="material-icons text-lg">picture_as_pdf</span> Descargar Reporte
+                                    </button>
+                                    <button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-yellow-500 text-white text-sm font-semibold hover:bg-yellow-600 transition-colors shadow-sm">
+                                        <span class="material-icons text-lg">add_alert</span> Registrar Observación
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabs y Línea de Tiempo -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Contenido de Tabs -->
+                        <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-lg">
+                            <div class="border-b border-slate-200 mb-6">
+                                <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+                                    <button class="tab-button active group inline-flex items-center gap-2 py-3 px-1 text-sm font-medium hover:text-blue-700 focus:outline-none">
+                                        <span class="material-icons text-lg">monitor_heart</span> Salud Ocupacional
+                                    </button>
+                                    <button class="tab-button group inline-flex items-center gap-2 py-3 px-1 text-sm font-medium text-slate-500 hover:text-blue-700 focus:outline-none">
+                                        <span class="material-icons text-lg">card_membership</span> Certificaciones
+                                    </button>
+                                    <button class="tab-button group inline-flex items-center gap-2 py-3 px-1 text-sm font-medium text-slate-500 hover:text-blue-700 focus:outline-none">
+                                        <span class="material-icons text-lg">school</span> Capacitaciones
+                                    </button>
+                                    <button class="tab-button group inline-flex items-center gap-2 py-3 px-1 text-sm font-medium text-slate-500 hover:text-blue-700 focus:outline-none">
+                                        <span class="material-icons text-lg">history</span> Hist. Eventos
+                                    </button>
+                                     <button class="tab-button group inline-flex items-center gap-2 py-3 px-1 text-sm font-medium text-slate-500 hover:text-blue-700 focus:outline-none">
+                                        <span class="material-icons text-lg">assignment_late</span> ARTs
+                                    </button>
+                                </nav>
+                            </div>
+
+                            <!-- Contenido de la Tab Activa (Salud Ocupacional como ejemplo) -->
+                            <div id="salud-ocupacional-content">
+                                <h3 class="text-lg font-semibold text-slate-700 mb-4">Exámenes Médicos Registrados</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-sm">
+                                        <thead class="bg-slate-50">
+                                            <tr>
+                                                <th class="px-4 py-2.5 text-left font-semibold text-slate-600">Examen</th>
+                                                <th class="px-4 py-2.5 text-left font-semibold text-slate-600">Fecha Realización</th>
+                                                <th class="px-4 py-2.5 text-left font-semibold text-slate-600">Resultado</th>
+                                                <th class="px-4 py-2.5 text-left font-semibold text-slate-600">Próx. Vencimiento</th>
+                                                <th class="px-4 py-2.5 text-left font-semibold text-slate-600">Documento</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-slate-200">
+                                            <tr>
+                                                <td class="px-4 py-3 text-slate-700">Psicosomático Anual</td>
+                                                <td class="px-4 py-3 text-slate-500">15/01/2024</td>
+                                                <td class="px-4 py-3"><span class="px-2 py-0.5 text-xs font-medium rounded-full bg-green-100 text-green-700">Apto</span></td>
+                                                <td class="px-4 py-3 text-slate-500">15/01/2025</td>
+                                                <td class="px-4 py-3"><a href="#" class="text-blue-600 hover:underline">Ver_Cert.pdf</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 text-slate-700">Audiometría</td>
+                                                <td class="px-4 py-3 text-slate-500">10/11/2023</td>
+                                                <td class="px-4 py-3"><span class="px-2 py-0.5 text-xs font-medium rounded-full bg-green-100 text-green-700">Normal</span></td>
+                                                <td class="px-4 py-3 text-slate-500">10/11/2024</td>
+                                                <td class="px-4 py-3"><a href="#" class="text-blue-600 hover:underline">Audio_2023.pdf</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 text-slate-700">Examen de Altura</td>
+                                                <td class="px-4 py-3 text-slate-500">05/06/2023</td>
+                                                <td class="px-4 py-3"><span class="px-2 py-0.5 text-xs font-medium rounded-full bg-yellow-100 text-yellow-700">Apto con Restricción</span></td>
+                                                <td class="px-4 py-3 text-red-600 font-medium">05/06/2024 (Vencido)</td>
+                                                <td class="px-4 py-3"><a href="#" class="text-blue-600 hover:underline">Altura_Restr.pdf</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button class="mt-4 flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700">
+                                    <span class="material-icons text-lg">add_circle_outline</span> Registrar Nuevo Examen
+                                </button>
+                            </div>
+                            <!-- Aquí irían los contenidos de las otras tabs, inicialmente ocultos -->
+                            <!-- <div id="certificaciones-content" class="hidden"> ... </div> -->
+                            <!-- <div id="capacitaciones-content" class="hidden"> ... </div> -->
+                            <!-- <div id="historial-eventos-content" class="hidden"> ... </div> -->
+                            <!-- <div id="arts-content" class="hidden"> ... </div> -->
+                        </div>
+
+                        <!-- Línea de Tiempo -->
+                        <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-lg">
+                            <h3 class="text-lg font-semibold text-slate-700 mb-5 flex items-center">
+                                <span class="material-icons mr-2 text-blue-600">timeline</span>
+                                Eventos Clave
+                            </h3>
+                            <div class="relative space-y-6 border-l-2 border-slate-200 pl-6">
+                                <div class="timeline-item relative">
+                                    <div class="timeline-dot size-3 bg-blue-500 rounded-full ring-4 ring-white"></div>
+                                    <p class="text-xs text-slate-500">15 Enero 2024</p>
+                                    <p class="text-sm font-medium text-slate-700">Examen Psicosomático Anual - Apto</p>
+                                </div>
+                                <div class="timeline-item relative">
+                                    <div class="timeline-dot size-3 bg-green-500 rounded-full ring-4 ring-white"></div>
+                                    <p class="text-xs text-slate-500">01 Diciembre 2023</p>
+                                    <p class="text-sm font-medium text-slate-700">Capacitación: Manejo Defensivo Avanzado</p>
+                                    <p class="text-xs text-slate-500">Completado, Certificado C-MDA-123</p>
+                                </div>
+                                <div class="timeline-item relative">
+                                   <div class="timeline-dot size-3 bg-yellow-500 rounded-full ring-4 ring-white"></div>
+                                    <p class="text-xs text-slate-500">20 Octubre 2023</p>
+                                    <p class="text-sm font-medium text-slate-700">Evento: Exceso de Velocidad Leve</p>
+                                    <p class="text-xs text-slate-500">Zona A, Tramo 3. Feedback realizado.</p>
+                                </div>
+                                <div class="timeline-item relative">
+                                    <div class="timeline-dot size-3 bg-red-500 rounded-full ring-4 ring-white"></div>
+                                    <p class="text-xs text-slate-500">05 Junio 2024</p>
+                                    <p class="text-sm font-medium text-slate-700">Vencimiento: Examen de Altura</p>
+                                    <p class="text-xs text-red-600">Requiere renovación urgente.</p>
+                                </div>
+                                <div class="timeline-item relative">
+                                    <div class="timeline-dot size-3 bg-slate-400 rounded-full ring-4 ring-white"></div>
+                                    <p class="text-xs text-slate-500">15 Marzo 2018</p>
+                                    <p class="text-sm font-medium text-slate-700">Inicio de Contrato</p>
+                                </div>
+                            </div>
+                            <button class="mt-6 w-full flex items-center justify-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 py-2 rounded-md hover:bg-blue-50 transition-colors">
+                                Ver Historial Completo <span class="material-icons text-lg">arrow_forward</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Contenedor para el footer estandarizado -->
+            <div id="footer-container"></div>
+        </div>
+    </div>
+    <script>
+        // Script simple para simular el cambio de tabs (solo para demostración visual)
+        const tabButtons = document.querySelectorAll('.tab-button');
+        // const tabContents = document.querySelectorAll('[id$="-content"]'); // En un caso real, seleccionarías así
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Lógica para mostrar/ocultar contenido de tabs (necesitaría IDs consistentes)
+                // Por ahora, solo cambia el estilo del botón activo.
+                // Ejemplo:
+                // tabContents.forEach(content => content.classList.add('hidden'));
+                // const activeTabContentId = button.textContent.trim().toLowerCase().replace(' ', '-') + '-content';
+                // document.getElementById(activeTabContentId)?.classList.remove('hidden');
+                alert("Cambio de tab simulado. En una app real, el contenido cambiaría aquí.");
+            });
+        });
+    </script>
+    <!-- Script para cargar componentes estandarizados -->
+    <script src="js/components.js"></script>
+</body>
+</html>

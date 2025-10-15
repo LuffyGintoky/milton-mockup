@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Inter%3Awght%40400%3B500%3B600%3B700%3B900&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <title>MineSafe - Checklist Diario</title>
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .material-icons {
+            font-family: 'Material Icons'; font-weight: normal; font-style: normal;
+            font-size: 24px; display: inline-block; line-height: 1;
+            text-transform: none; letter-spacing: normal; word-wrap: normal;
+            white-space: nowrap; direction: ltr;
+            -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+            -moz-osx-font-smoothing: grayscale; font-feature-settings: 'liga';
+        }
+        /* Estilo para radio buttons personalizados */
+        .custom-radio-label input:checked + div {
+            border-color: #2563eb; /* blue-600 */
+            background-color: #eff6ff; /* blue-50 */
+        }
+        .custom-radio-label input:checked + div span.material-icons {
+            color: #2563eb; /* blue-600 */
+        }
+        .custom-radio-label div {
+            transition: all 0.2s ease-in-out;
+        }
+        .custom-radio-label:hover div {
+            border-color: #9ca3af; /* slate-400 */
+        }
+    </style>
+</head>
+<body class="bg-slate-100" style='font-family: Inter, "Noto Sans", sans-serif;'>
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Contenedor para el navbar estandarizado -->
+            <div id="navbar-container"></div>
+
+            <main class="flex-1 px-6 py-8 md:px-10 lg:px-12">
+                <div class="max-w-5xl mx-auto">
+                    <!-- Breadcrumbs -->
+                    <nav aria-label="Breadcrumb" class="mb-6">
+                        <ol class="flex items-center gap-1.5 text-sm text-slate-500">
+                            <li><a href="#" class="hover:text-blue-600 transition-colors">Panel de Control</a></li>
+                            <li><span class="material-icons text-base">chevron_right</span></li>
+                            <li><a href="#" class="hover:text-blue-600 transition-colors">Checklists</a></li>
+                            <li><span class="material-icons text-base">chevron_right</span></li>
+                            <li class="font-medium text-slate-700" aria-current="page">Nuevo Checklist Diario</li>
+                        </ol>
+                    </nav>
+
+                    <h1 class="text-3xl font-bold text-slate-800 mb-8">Checklist Diario Pre-Operacional</h1>
+
+                    <form class="space-y-8">
+                        <!-- Sección Información General -->
+                        <section class="bg-white p-6 rounded-xl shadow-lg">
+                            <h2 class="text-xl font-semibold text-slate-800 mb-6 flex items-center">
+                                <span class="material-icons mr-2 text-blue-600">info</span>Información General
+                            </h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium text-slate-700" for="checklist-date">Fecha y Hora</label>
+                                    <input type="text" id="checklist-date" value="28/07/2024 - 07:30 AM" readonly class="form-input h-11 rounded-lg border-slate-300 bg-slate-50 text-slate-700 px-3.5" />
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium text-slate-700" for="shift-select">Turno</label>
+                                    <select id="shift-select" class="form-select h-11 rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 px-3.5">
+                                        <option selected>Turno Día (7AM-7PM)</option>
+                                        <option>Turno Noche (7PM-7AM)</option>
+                                    </select>
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium text-slate-700" for="driver-select">Conductor</label>
+                                    <div class="relative">
+                                        <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">person_outline</span>
+                                        <select id="driver-select" class="form-select w-full h-11 rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 pl-10 pr-3.5">
+                                            <option disabled selected value="">Seleccionar Conductor</option>
+                                            <option value="jperez">Juan Pérez Gómez (Habilitado)</option>
+                                            <option value="agomez">Ana Gómez López (Habilitada)</option>
+                                            <option value="clopez">Carlos López Ruiz (No Habilitado - Examen Vencido)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium text-slate-700" for="vehicle-select">Vehículo / Equipo</label>
+                                    <div class="relative">
+                                        <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">directions_car</span>
+                                        <select id="vehicle-select" class="form-select w-full h-11 rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 pl-10 pr-3.5">
+                                            <option disabled selected value="">Seleccionar Vehículo</option>
+                                            <option value="cam001">Camión Volvo FMX-001</option>
+                                            <option value="exc002">Excavadora CAT 336-002</option>
+                                            <option value="perf003">Perforadora Atlas Copco SDE-003</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium text-slate-700" for="odometer-reading">Horómetro / Odómetro</label>
+                                    <input type="number" id="odometer-reading" placeholder="Ej: 12543.5" class="form-input h-11 rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 px-3.5" />
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Sección Inspección del Vehículo -->
+                        <section class="bg-white p-6 rounded-xl shadow-lg">
+                            <h2 class="text-xl font-semibold text-slate-800 mb-6 flex items-center">
+                                <span class="material-icons mr-2 text-blue-600">build_circle</span>Inspección del Vehículo
+                            </h2>
+                            <div class="space-y-5">
+                                <!-- Item de Checklist Ejemplo -->
+                                <div class="p-4 rounded-lg border border-slate-200">
+                                    <p class="text-slate-700 font-medium mb-2">1. Niveles de Fluidos (Aceite, Refrigerante, Hidráulico)</p>
+                                    <div class="flex flex-wrap gap-3 items-center">
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer">
+                                            <input type="radio" name="fluidos_niveles" value="ok" class="sr-only">
+                                            <div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600 hover:border-slate-400">
+                                                <span class="material-icons text-base text-green-500">check_circle_outline</span>OK
+                                            </div>
+                                        </label>
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer">
+                                            <input type="radio" name="fluidos_niveles" value="nok" class="sr-only">
+                                            <div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600 hover:border-slate-400">
+                                                <span class="material-icons text-base text-red-500">highlight_off</span>NOK
+                                            </div>
+                                        </label>
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer">
+                                            <input type="radio" name="fluidos_niveles" value="na" class="sr-only">
+                                            <div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600 hover:border-slate-400">
+                                                <span class="material-icons text-base text-slate-500">do_not_disturb_on</span>N/A
+                                            </div>
+                                        </label>
+                                        <input type="text" name="fluidos_niveles_obs" placeholder="Observación si NOK..." class="form-input flex-grow h-9 rounded-md border-slate-300 text-sm px-3 py-1.5" style="display: none;">
+                                    </div>
+                                </div>
+                                <div class="p-4 rounded-lg border border-slate-200">
+                                    <p class="text-slate-700 font-medium mb-2">2. Luces (Delanteras, Posteriores, Direccionales, Emergencia)</p>
+                                    <div class="flex flex-wrap gap-3 items-center">
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="luces_estado" value="ok" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-green-500">check_circle_outline</span>OK</div></label>
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="luces_estado" value="nok" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-red-500">highlight_off</span>NOK</div></label>
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="luces_estado" value="na" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-slate-500">do_not_disturb_on</span>N/A</div></label>
+                                        <input type="text" name="luces_estado_obs" placeholder="Observación si NOK..." class="form-input flex-grow h-9 rounded-md border-slate-300 text-sm px-3 py-1.5" style="display: none;">
+                                    </div>
+                                </div>
+                                 <div class="p-4 rounded-lg border border-slate-200">
+                                    <p class="text-slate-700 font-medium mb-2">3. Frenos (Servicio y Estacionamiento)</p>
+                                    <div class="flex flex-wrap gap-3 items-center">
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="frenos_estado" value="ok" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-green-500">check_circle_outline</span>OK</div></label>
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="frenos_estado" value="nok" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-red-500">highlight_off</span>NOK</div></label>
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="frenos_estado" value="na" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-slate-500">do_not_disturb_on</span>N/A</div></label>
+                                        <input type="text" name="frenos_estado_obs" placeholder="Observación si NOK..." class="form-input flex-grow h-9 rounded-md border-slate-300 text-sm px-3 py-1.5" style="display: none;">
+                                    </div>
+                                </div>
+                                <div class="p-4 rounded-lg border border-slate-200">
+                                    <p class="text-slate-700 font-medium mb-2">4. Neumáticos (Presión, Desgaste, Tuercas)</p>
+                                    <div class="flex flex-wrap gap-3 items-center">
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="neumaticos_estado" value="ok" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-green-500">check_circle_outline</span>OK</div></label>
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="neumaticos_estado" value="nok" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-red-500">highlight_off</span>NOK</div></label>
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="neumaticos_estado" value="na" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-slate-500">do_not_disturb_on</span>N/A</div></label>
+                                        <input type="text" name="neumaticos_estado_obs" placeholder="Observación si NOK..." class="form-input flex-grow h-9 rounded-md border-slate-300 text-sm px-3 py-1.5" style="display: none;">
+                                    </div>
+                                </div>
+                                 <!-- ... más ítems de inspección del vehículo ... -->
+                            </div>
+                        </section>
+
+                        <!-- Sección Condición del Conductor y EPP -->
+                        <section class="bg-white p-6 rounded-xl shadow-lg">
+                            <h2 class="text-xl font-semibold text-slate-800 mb-6 flex items-center">
+                                <span class="material-icons mr-2 text-blue-600">health_and_safety</span>Condición del Conductor y EPP
+                            </h2>
+                            <div class="space-y-5">
+                                <div class="p-4 rounded-lg border border-slate-200">
+                                    <p class="text-slate-700 font-medium mb-2">5. Conductor se siente apto para operar (Sin fatiga/somnolencia)</p>
+                                    <div class="flex flex-wrap gap-3 items-center">
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="conductor_apto" value="ok" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-green-500">check_circle_outline</span>SI</div></label>
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="conductor_apto" value="nok" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-red-500">highlight_off</span>NO</div></label>
+                                        <input type="text" name="conductor_apto_obs" placeholder="Observación si NO..." class="form-input flex-grow h-9 rounded-md border-slate-300 text-sm px-3 py-1.5" style="display: none;">
+                                    </div>
+                                </div>
+                                <div class="p-4 rounded-lg border border-slate-200">
+                                    <p class="text-slate-700 font-medium mb-2">6. EPP Completo y en buen estado (Casco, Lentes, Chaleco, Guantes, Zapatos)</p>
+                                    <div class="flex flex-wrap gap-3 items-center">
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="epp_completo" value="ok" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-green-500">check_circle_outline</span>OK</div></label>
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="epp_completo" value="nok" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-red-500">highlight_off</span>NOK</div></label>
+                                        <label class="custom-radio-label flex items-center gap-2 cursor-pointer"><input type="radio" name="epp_completo" value="na" class="sr-only"><div class="flex items-center gap-1.5 px-3 py-2 border border-slate-300 rounded-md text-sm text-slate-600"><span class="material-icons text-base text-slate-500">do_not_disturb_on</span>N/A</div></label>
+                                        <input type="text" name="epp_completo_obs" placeholder="Observación si NOK..." class="form-input flex-grow h-9 rounded-md border-slate-300 text-sm px-3 py-1.5" style="display: none;">
+                                    </div>
+                                </div>
+                                <!-- ... más ítems de conductor y EPP ... -->
+                            </div>
+                        </section>
+
+                        <!-- Sección Observaciones y Evidencias -->
+                        <section class="bg-white p-6 rounded-xl shadow-lg">
+                            <h2 class="text-xl font-semibold text-slate-800 mb-6 flex items-center">
+                                <span class="material-icons mr-2 text-blue-600">comment</span>Observaciones Adicionales y Evidencias
+                            </h2>
+                            <div class="space-y-6">
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium text-slate-700" for="general-observations">Observaciones Generales</label>
+                                    <textarea id="general-observations" placeholder="Ingrese cualquier observación relevante no cubierta anteriormente..." rows="4" class="form-textarea w-full rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 p-3.5"></textarea>
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-sm font-medium text-slate-700">Cargar Evidencia (Fotos/Videos de hallazgos)</label>
+                                    <div class="flex items-center gap-4">
+                                        <label for="file-upload" class="cursor-pointer flex items-center justify-center gap-2 rounded-lg h-11 px-5 bg-slate-100 text-slate-700 text-sm font-semibold hover:bg-slate-200 transition-colors border border-slate-300">
+                                            <span class="material-icons text-lg">cloud_upload</span>
+                                            Seleccionar Archivos
+                                        </label>
+                                        <input id="file-upload" type="file" class="sr-only" multiple />
+                                        <span id="file-upload-filename" class="text-sm text-slate-500">Ningún archivo seleccionado.</span>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-sm font-medium text-slate-700">Firma del Conductor</label>
+                                        <div class="h-28 border border-dashed border-slate-300 rounded-lg flex items-center justify-center text-slate-400 text-sm">
+                                            Área para firma digital o cargar imagen
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-1.5">
+                                        <label class="text-sm font-medium text-slate-700">Firma del Supervisor (si aplica)</label>
+                                        <div class="h-28 border border-dashed border-slate-300 rounded-lg flex items-center justify-center text-slate-400 text-sm">
+                                            Área para firma digital o cargar imagen
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Acciones Finales -->
+                        <div class="flex flex-col sm:flex-row justify-end items-center gap-4 pt-4">
+                            <button type="button" class="w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg h-11 px-5 bg-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-300 transition-colors border border-slate-300">
+                                <span class="material-icons text-lg">save</span> Guardar Borrador
+                            </button>
+                            <button type="submit" class="w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-blue-600 text-white text-base font-semibold shadow-md hover:bg-blue-700 transition-colors">
+                                <span class="material-icons text-lg">send</span> Enviar Checklist
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Historial de Checklists Anteriores -->
+                    <section class="bg-white p-6 rounded-xl shadow-lg mt-12">
+                        <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+                            <h2 class="text-xl font-semibold text-slate-800 flex items-center">
+                                <span class="material-icons mr-2 text-blue-600">history_toggle_off</span>Historial de Checklists
+                            </h2>
+                            <div class="flex items-center gap-2">
+                                <input type="date" class="form-input h-9 rounded-md border-slate-300 text-sm px-3">
+                                <select class="form-select h-9 rounded-md border-slate-300 text-sm pr-8 pl-3">
+                                    <option>Todos los Estados</option>
+                                    <option value="ok">Completado OK</option>
+                                    <option value="nok">Con Hallazgos</option>
+                                    <option value="pending">Pendiente</option>
+                                </select>
+                                <button class="flex items-center justify-center gap-1 rounded-md h-9 px-3 bg-slate-100 text-slate-700 text-xs font-medium hover:bg-slate-200 border border-slate-300">
+                                    <span class="material-icons text-base">filter_list</span>Filtrar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto @container">
+                            <table class="w-full min-w-[700px] text-sm">
+                                <thead class="bg-slate-100">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Fecha</th>
+                                        <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Turno</th>
+                                        <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Conductor</th>
+                                        <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Vehículo</th>
+                                        <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Estado</th>
+                                        <th class="px-4 py-3 text-center font-semibold text-slate-600 uppercase">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr>
+                                        <td class="px-4 py-3 text-slate-600">27/07/2024 07:15</td>
+                                        <td class="px-4 py-3 text-slate-600">Día</td>
+                                        <td class="px-4 py-3 text-slate-700">Juan Pérez</td>
+                                        <td class="px-4 py-3 text-slate-700">CAM-001</td>
+                                        <td class="px-4 py-3"><span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-green-100 text-green-700 border border-green-200">Completado OK</span></td>
+                                        <td class="px-4 py-3 text-center space-x-2">
+                                            <button class="text-slate-500 hover:text-blue-600 p-1" title="Ver Detalle"><span class="material-icons text-xl">visibility</span></button>
+                                            <button class="text-slate-500 hover:text-green-600 p-1" title="Descargar PDF"><span class="material-icons text-xl">picture_as_pdf</span></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 text-slate-600">26/07/2024 19:05</td>
+                                        <td class="px-4 py-3 text-slate-600">Noche</td>
+                                        <td class="px-4 py-3 text-slate-700">Ana Gómez</td>
+                                        <td class="px-4 py-3 text-slate-700">EXC-002</td>
+                                        <td class="px-4 py-3"><span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-700 border border-yellow-200">Con Hallazgos</span></td>
+                                        <td class="px-4 py-3 text-center space-x-2">
+                                            <button class="text-slate-500 hover:text-blue-600 p-1" title="Ver Detalle"><span class="material-icons text-xl">visibility</span></button>
+                                            <button class="text-slate-500 hover:text-green-600 p-1" title="Descargar PDF"><span class="material-icons text-xl">picture_as_pdf</span></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 text-slate-600">26/07/2024 07:00</td>
+                                        <td class="px-4 py-3 text-slate-600">Día</td>
+                                        <td class="px-4 py-3 text-slate-700">Carlos López</td>
+                                        <td class="px-4 py-3 text-slate-700">PERF-003</td>
+                                        <td class="px-4 py-3"><span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-red-100 text-red-700 border border-red-200">No Realizado</span></td>
+                                        <td class="px-4 py-3 text-center space-x-2">
+                                             <button class="text-slate-500 hover:text-blue-600 p-1" title="Ver Detalle"><span class="material-icons text-xl">visibility</span></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Paginación (Ejemplo simple) -->
+                        <div class="mt-6 flex flex-col sm:flex-row justify-between items-center text-sm">
+                            <p class="text-slate-600 mb-2 sm:mb-0">Mostrando 1-3 de 15 checklists</p>
+                            <div class="flex items-center gap-2">
+                                <button class="flex items-center justify-center rounded-md h-8 w-8 bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-300 disabled:opacity-50" disabled><span class="material-icons text-lg">chevron_left</span></button>
+                                <span class="font-medium text-slate-700">Página 1 de 5</span>
+                                <button class="flex items-center justify-center rounded-md h-8 w-8 bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-300"><span class="material-icons text-lg">chevron_right</span></button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+
+            <!-- Contenedor para el footer estandarizado -->
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // Script para mostrar/ocultar campo de observación si NOK
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const obsInputName = this.name + '_obs';
+                const obsInput = document.querySelector(`input[name="${obsInputName}"]`);
+                if (obsInput) {
+                    if (this.value === 'nok' && this.checked) {
+                        obsInput.style.display = 'block';
+                        obsInput.focus();
+                    } else {
+                        // Solo ocultar si otro radio del mismo grupo está seleccionado y NO es 'nok'
+                        // o si el radio 'nok' es deseleccionado (aunque con radios es raro)
+                        let nokSelected = false;
+                        document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => {
+                            if (r.value === 'nok' && r.checked) nokSelected = true;
+                        });
+                        if(!nokSelected) obsInput.style.display = 'none';
+                    }
+                }
+            });
+        });
+
+        // Script para mostrar nombre de archivo cargado
+        const fileInput = document.getElementById('file-upload');
+        const fileNameDisplay = document.getElementById('file-upload-filename');
+        if (fileInput && fileNameDisplay) {
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files.length > 1) {
+                    fileNameDisplay.textContent = `${this.files.length} archivos seleccionados.`;
+                } else if (this.files && this.files.length === 1) {
+                    fileNameDisplay.textContent = this.files[0].name;
+                } else {
+                    fileNameDisplay.textContent = 'Ningún archivo seleccionado.';
+                }
+            });
+        }
+    </script>
+    <!-- Script para cargar componentes estandarizados -->
+    <script src="js/components.js"></script>
+</body>
+</html>

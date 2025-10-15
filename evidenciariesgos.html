@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Inter%3Awght%40400%3B500%3B600%3B700%3B900&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <title>MineSafe - Gestión Documental RC10</title>
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .material-icons {
+            font-family: 'Material Icons'; font-weight: normal; font-style: normal;
+            font-size: 24px; display: inline-block; line-height: 1;
+            text-transform: none; letter-spacing: normal; word-wrap: normal;
+            white-space: nowrap; direction: ltr;
+            -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+            -moz-osx-font-smoothing: grayscale; font-feature-settings: 'liga';
+        }
+    </style>
+</head>
+<body class="bg-slate-100" style='font-family: Inter, "Noto Sans", sans-serif;'>
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Contenedor para el navbar estandarizado -->
+            <div id="navbar-container"></div>
+
+            <main class="flex-1 px-6 py-8 md:px-10 lg:px-12">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Breadcrumbs -->
+                    <nav aria-label="Breadcrumb" class="mb-6"><ol class="flex items-center gap-1.5 text-sm text-slate-500"><li><a href="#" class="hover:text-blue-600 transition-colors">Panel de Control</a></li><li><span class="material-icons text-base">chevron_right</span></li><li><a href="#" class="hover:text-blue-600 transition-colors">Gestión de Riesgos</a></li><li><span class="material-icons text-base">chevron_right</span></li><li><a href="#" class="hover:text-blue-600 transition-colors">RC10</a></li><li><span class="material-icons text-base">chevron_right</span></li><li class="font-medium text-slate-700" aria-current="page">Gestión Documental</li></ol></nav>
+                    
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                        <div>
+                            <h1 class="text-3xl font-bold text-slate-800">Gestión Documental</h1>
+                            <p class="text-slate-600 mt-1">Evidencias del Riesgo Crítico 10: Pérdida de Control de Vehículos/Conductores</p>
+                        </div>
+                        <button class="flex items-center gap-2 rounded-lg h-11 px-5 bg-blue-600 text-white text-base font-semibold shadow-md hover:bg-blue-700 transition-colors">
+                            <span class="material-icons text-lg">upload_file</span>Subir Nueva Evidencia
+                        </button>
+                    </div>
+
+                    <!-- Barra de Filtros -->
+                    <div class="bg-white p-4 rounded-xl shadow-lg border border-slate-200 mb-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+                            <div class="flex flex-col gap-1.5"><label class="text-sm font-medium text-slate-600" for="doc-type-filter">Tipo de Documento</label><select id="doc-type-filter" class="form-select h-10 rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"><option value="">Todos los Tipos</option><option>Checklist Vehicular</option><option>Cert. Capacitación</option><option>Examen Médico</option><option>ART</option><option>Reporte de Inspección</option></select></div>
+                            <div class="flex flex-col gap-1.5"><label class="text-sm font-medium text-slate-600" for="person-filter">Persona Asociada</label><input type="text" id="person-filter" placeholder="Buscar por nombre..." class="form-input h-10 rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"></div>
+                            <div class="flex flex-col gap-1.5"><label class="text-sm font-medium text-slate-600" for="status-filter">Estado del Documento</label><select id="status-filter" class="form-select h-10 rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"><option value="">Todos los Estados</option><option value="vigente">Vigente</option><option value="por_vencer">Por Vencer</option><option value="vencido">Vencido</option></select></div>
+                            <button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-slate-100 text-slate-700 text-sm font-semibold hover:bg-slate-200 border border-slate-300">
+                                <span class="material-icons text-lg">search</span>Aplicar Filtros
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Documentos -->
+                    <div class="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-slate-100"><tr class="border-b border-slate-200">
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Tipo</th>
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Nombre del Documento</th>
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Fecha Subida</th>
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Vencimiento</th>
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Usuario</th>
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Estado</th>
+                                    <th class="px-4 py-3 text-center font-semibold text-slate-600 uppercase">Acciones</th>
+                                </tr></thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3"><span class="material-icons text-lg text-blue-500" title="Checklist Vehicular">checklist_rtl</span></td>
+                                        <td class="px-4 py-3"><a href="#" class="font-medium text-blue-600 hover:underline">Checklist_CAM001_20240728.pdf</a></td>
+                                        <td class="px-4 py-3 text-slate-600">28/07/2024</td>
+                                        <td class="px-4 py-3 text-slate-600">-</td>
+                                        <td class="px-4 py-3 text-slate-700">Juan Pérez</td>
+                                        <td class="px-4 py-3"><span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-green-100 text-green-700 border border-green-200">Vigente</span></td>
+                                        <td class="px-4 py-3 text-center space-x-1">
+                                            <button class="text-slate-500 hover:text-blue-600 p-1 rounded-full" title="Ver"><span class="material-icons text-xl">visibility</span></button>
+                                            <button class="text-slate-500 hover:text-green-600 p-1 rounded-full" title="Descargar"><span class="material-icons text-xl">download</span></button>
+                                            <button class="text-slate-500 hover:text-yellow-600 p-1 rounded-full" title="Editar"><span class="material-icons text-xl">edit</span></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3"><span class="material-icons text-lg text-purple-500" title="Certificado Capacitación">school</span></td>
+                                        <td class="px-4 py-3"><a href="#" class="font-medium text-blue-600 hover:underline">Cert_ManejoDefensivo_AGomez.pdf</a></td>
+                                        <td class="px-4 py-3 text-slate-600">15/06/2024</td>
+                                        <td class="px-4 py-3 text-yellow-600 font-medium">15/08/2024</td>
+                                        <td class="px-4 py-3 text-slate-700">Admin Sistema</td>
+                                        <td class="px-4 py-3"><span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-700 border border-yellow-200">Por Vencer</span></td>
+                                        <td class="px-4 py-3 text-center space-x-1">
+                                            <button class="text-slate-500 hover:text-blue-600 p-1 rounded-full" title="Ver"><span class="material-icons text-xl">visibility</span></button>
+                                            <button class="text-slate-500 hover:text-green-600 p-1 rounded-full" title="Descargar"><span class="material-icons text-xl">download</span></button>
+                                            <button class="text-slate-500 hover:text-yellow-600 p-1 rounded-full" title="Editar"><span class="material-icons text-xl">edit</span></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3"><span class="material-icons text-lg text-red-500" title="Examen Médico">medical_services</span></td>
+                                        <td class="px-4 py-3"><a href="#" class="font-medium text-blue-600 hover:underline">ExamenPsico_CLopez_2023.jpg</a></td>
+                                        <td class="px-4 py-3 text-slate-600">01/07/2023</td>
+                                        <td class="px-4 py-3 text-red-600 font-medium">01/07/2024</td>
+                                        <td class="px-4 py-3 text-slate-700">Admin RRHH</td>
+                                        <td class="px-4 py-3"><span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-red-100 text-red-700 border border-red-200">Vencido</span></td>
+                                        <td class="px-4 py-3 text-center space-x-1">
+                                            <button class="text-slate-500 hover:text-blue-600 p-1 rounded-full" title="Ver"><span class="material-icons text-xl">visibility</span></button>
+                                            <button class="text-slate-500 hover:text-green-600 p-1 rounded-full" title="Descargar"><span class="material-icons text-xl">download</span></button>
+                                            <button class="text-slate-500 hover:text-yellow-600 p-1 rounded-full" title="Editar"><span class="material-icons text-xl">edit</span></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3"><span class="material-icons text-lg text-orange-500" title="ART">assignment_late</span></td>
+                                        <td class="px-4 py-3"><a href="#" class="font-medium text-blue-600 hover:underline">ART_CambioNeumatico_TurnoNoche.docx</a></td>
+                                        <td class="px-4 py-3 text-slate-600">20/07/2024</td>
+                                        <td class="px-4 py-3 text-slate-600">20/07/2024</td>
+                                        <td class="px-4 py-3 text-slate-700">Supervisor Turno</td>
+                                        <td class="px-4 py-3"><span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-green-100 text-green-700 border border-green-200">Vigente (Un Uso)</span></td>
+                                        <td class="px-4 py-3 text-center space-x-1">
+                                            <button class="text-slate-500 hover:text-blue-600 p-1 rounded-full" title="Ver"><span class="material-icons text-xl">visibility</span></button>
+                                            <button class="text-slate-500 hover:text-green-600 p-1 rounded-full" title="Descargar"><span class="material-icons text-xl">download</span></button>
+                                            <button class="text-slate-500 hover:text-yellow-600 p-1 rounded-full" title="Editar"><span class="material-icons text-xl">edit</span></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Paginación -->
+                        <div class="px-4 py-3 flex justify-between items-center text-sm border-t border-slate-200">
+                            <p class="text-slate-600">Mostrando 1-4 de 125 documentos</p>
+                            <div class="flex items-center gap-2">
+                                <button class="flex items-center justify-center rounded-md h-8 w-8 bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-300 disabled:opacity-50" disabled><span class="material-icons text-lg">chevron_left</span></button>
+                                <span class="font-medium text-slate-700">Página 1 de 32</span>
+                                <button class="flex items-center justify-center rounded-md h-8 w-8 bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-300"><span class="material-icons text-lg">chevron_right</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Contenedor para el footer estandarizado -->
+            <div id="footer-container"></div>
+        </div>
+    </div>
+    <!-- Modal para Subir Evidencia (Ejemplo simple, inicialmente oculto) -->
+    <div id="upload-modal" class="fixed inset-0 bg-slate-900 bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full p-6 space-y-6">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-semibold text-slate-800">Subir Nueva Evidencia</h3>
+                <button onclick="document.getElementById('upload-modal').classList.add('hidden')" class="text-slate-500 hover:text-slate-800 p-1 rounded-full"><span class="material-icons">close</span></button>
+            </div>
+            <form class="space-y-4">
+                <div><label for="file-input" class="block text-sm font-medium text-slate-700 mb-1">Archivo</label><input type="file" id="file-input" class="form-input block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"></div>
+                <div><label for="modal-doc-type" class="block text-sm font-medium text-slate-700 mb-1">Tipo de Documento</label><select id="modal-doc-type" class="form-select w-full h-10 rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"><option>Checklist Vehicular</option><option>Cert. Capacitación</option><option>Examen Médico</option><option>ART</option></select></div>
+                <div><label for="modal-doc-name" class="block text-sm font-medium text-slate-700 mb-1">Nombre del Documento</label><input type="text" id="modal-doc-name" placeholder="Ej: Checklist_CAM001_Fecha" class="form-input w-full h-10 rounded-lg border-slate-300 text-sm"></div>
+                <div><label for="modal-doc-expiry" class="block text-sm font-medium text-slate-700 mb-1">Fecha de Vencimiento (Opcional)</label><input type="date" id="modal-doc-expiry" class="form-input w-full h-10 rounded-lg border-slate-300 text-sm"></div>
+                <div><label for="modal-doc-person" class="block text-sm font-medium text-slate-700 mb-1">Persona(s) Asociada(s)</label><input type="text" id="modal-doc-person" placeholder="Ej: Juan Pérez, Equipo Alpha" class="form-input w-full h-10 rounded-lg border-slate-300 text-sm"></div>
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="document.getElementById('upload-modal').classList.add('hidden')" class="rounded-lg h-10 px-4 bg-slate-100 text-slate-700 text-sm font-semibold hover:bg-slate-200 border border-slate-300">Cancelar</button>
+                    <button type="submit" class="rounded-lg h-10 px-5 bg-blue-600 text-white text-sm font-semibold shadow-sm hover:bg-blue-700">Subir Documento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Script para cargar componentes estandarizados -->
+    <script src="js/components.js"></script>
+</body>
+</html>

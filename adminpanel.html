@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Inter%3Awght%40400%3B500%3B600%3B700%3B900&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <title>MineSafe - Administración de Usuarios</title>
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .material-icons {
+            font-family: 'Material Icons'; font-weight: normal; font-style: normal;
+            font-size: 24px; display: inline-block; line-height: 1;
+            text-transform: none; letter-spacing: normal; word-wrap: normal;
+            white-space: nowrap; direction: ltr;
+            -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+            -moz-osx-font-smoothing: grayscale; font-feature-settings: 'liga';
+        }
+    </style>
+</head>
+<body class="bg-slate-100" style='font-family: Inter, "Noto Sans", sans-serif;'>
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Contenedor para el navbar estandarizado -->
+            <div id="navbar-container"></div>
+
+            <main class="flex-1 px-6 py-8 md:px-10 lg:px-12">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Breadcrumbs -->
+                    <nav aria-label="Breadcrumb" class="mb-6">
+                        <ol class="flex items-center gap-1.5 text-sm text-slate-500">
+                            <li><a href="#" class="hover:text-blue-600 transition-colors">Panel de Control</a></li>
+                            <li><span class="material-icons text-base">chevron_right</span></li>
+                            <li class="font-medium text-slate-700" aria-current="page">Administración de Usuarios</li>
+                        </ol>
+                    </nav>
+                    
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                        <div>
+                            <h1 class="text-3xl font-bold text-slate-800">Administración de Usuarios y Accesos</h1>
+                            <p class="text-slate-600 mt-1">Gestiona los usuarios, sus roles y permisos en la plataforma.</p>
+                        </div>
+                        <button class="flex items-center gap-2 rounded-lg h-11 px-5 bg-blue-600 text-white text-base font-semibold shadow-md hover:bg-blue-700 transition-colors">
+                            <span class="material-icons text-lg">person_add</span>Crear Nuevo Usuario
+                        </button>
+                    </div>
+
+                    <!-- Barra de Filtros -->
+                    <div class="bg-white p-4 rounded-xl shadow-lg border border-slate-200 mb-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 items-end">
+                            <div class="flex flex-col gap-1.5"><label class="text-sm font-medium text-slate-600" for="search-user">Buscar Usuario</label><input type="text" id="search-user" placeholder="Nombre, correo..." class="form-input h-10 rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"></div>
+                            <div class="flex flex-col gap-1.5"><label class="text-sm font-medium text-slate-600" for="role-filter">Rol</label><select id="role-filter" class="form-select h-10 rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"><option value="">Todos los Roles</option><option>Administrador</option><option>Supervisor Codelco</option><option>Operador Codelco</option><option>Supervisor Contratista</option><option>Operador Contratista</option></select></div>
+                            <div class="flex flex-col gap-1.5"><label class="text-sm font-medium text-slate-600" for="status-filter">Estado</label><select id="status-filter" class="form-select h-10 rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"><option value="">Todos los Estados</option><option>Activo</option><option>Inactivo</option><option>Suspendido</option></select></div>
+                            <div class="flex flex-col gap-1.5"><label class="text-sm font-medium text-slate-600" for="unit-filter">Unidad Operativa</label><select id="unit-filter" class="form-select h-10 rounded-lg border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"><option value="">Todas las Unidades</option><option>Mina Esperanza</option><option>Mina Futuro</option><option>Planta Concentradora</option></select></div>
+                            <button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-slate-100 text-slate-700 text-sm font-semibold hover:bg-slate-200 border border-slate-300">
+                                <span class="material-icons text-lg">filter_alt</span>Aplicar Filtros
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Usuarios -->
+                    <div class="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-slate-100"><tr class="border-b border-slate-200">
+                                    <th class="px-4 py-3 text-left"><input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"></th>
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Nombre Completo</th>
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Correo Electrónico</th>
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Rol</th>
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Unidad</th>
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-600 uppercase">Estado</th>
+                                    <th class="px-4 py-3 text-center font-semibold text-slate-600 uppercase">Acciones</th>
+                                </tr></thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3"><input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"></td>
+                                        <td class="px-4 py-3 font-medium text-slate-800">Juan Alberto Pérez Gómez</td>
+                                        <td class="px-4 py-3 text-slate-600">jperez@contratistaomega.com</td>
+                                        <td class="px-4 py-3 text-slate-700">Operador Contratista</td>
+                                        <td class="px-4 py-3 text-slate-600">Mina Esperanza</td>
+                                        <td class="px-4 py-3"><span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-green-100 text-green-700 border border-green-200">Activo</span></td>
+                                        <td class="px-4 py-3 text-center space-x-1">
+                                            <button class="text-slate-500 hover:text-blue-600 p-1 rounded-full" title="Editar Usuario"><span class="material-icons text-xl">edit</span></button>
+                                            <button class="text-slate-500 hover:text-red-600 p-1 rounded-full" title="Desactivar Usuario"><span class="material-icons text-xl">toggle_off</span></button>
+                                            <button class="text-slate-500 hover:text-slate-700 p-1 rounded-full" title="Más Opciones"><span class="material-icons text-xl">more_vert</span></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3"><input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"></td>
+                                        <td class="px-4 py-3 font-medium text-slate-800">Ana María Gómez López</td>
+                                        <td class="px-4 py-3 text-slate-600">agomez@codelco.cl</td>
+                                        <td class="px-4 py-3 text-slate-700">Supervisor Codelco</td>
+                                        <td class="px-4 py-3 text-slate-600">Mina Futuro</td>
+                                        <td class="px-4 py-3"><span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-green-100 text-green-700 border border-green-200">Activo</span></td>
+                                        <td class="px-4 py-3 text-center space-x-1">
+                                            <button class="text-slate-500 hover:text-blue-600 p-1 rounded-full" title="Editar Usuario"><span class="material-icons text-xl">edit</span></button>
+                                            <button class="text-slate-500 hover:text-red-600 p-1 rounded-full" title="Desactivar Usuario"><span class="material-icons text-xl">toggle_off</span></button>
+                                            <button class="text-slate-500 hover:text-slate-700 p-1 rounded-full" title="Más Opciones"><span class="material-icons text-xl">more_vert</span></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3"><input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"></td>
+                                        <td class="px-4 py-3 font-medium text-slate-800">Carlos Daniel López Ruiz</td>
+                                        <td class="px-4 py-3 text-slate-600">clopez@codelco.cl</td>
+                                        <td class="px-4 py-3 text-slate-700">Administrador</td>
+                                        <td class="px-4 py-3 text-slate-600">Corporativo</td>
+                                        <td class="px-4 py-3"><span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-green-100 text-green-700 border border-green-200">Activo</span></td>
+                                        <td class="px-4 py-3 text-center space-x-1">
+                                            <button class="text-slate-500 hover:text-blue-600 p-1 rounded-full" title="Editar Usuario"><span class="material-icons text-xl">edit</span></button>
+                                            <button class="text-slate-500 hover:text-red-600 p-1 rounded-full" title="Desactivar Usuario"><span class="material-icons text-xl">toggle_off</span></button>
+                                            <button class="text-slate-500 hover:text-slate-700 p-1 rounded-full" title="Más Opciones"><span class="material-icons text-xl">more_vert</span></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-4 py-3"><input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"></td>
+                                        <td class="px-4 py-3 font-medium text-slate-800">Laura Vargas Soto</td>
+                                        <td class="px-4 py-3 text-slate-600">lvargas@externoserv.com</td>
+                                        <td class="px-4 py-3 text-slate-700">Operador Contratista</td>
+                                        <td class="px-4 py-3 text-slate-600">Planta Concentradora</td>
+                                        <td class="px-4 py-3"><span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-red-100 text-red-700 border border-red-200">Inactivo</span></td>
+                                        <td class="px-4 py-3 text-center space-x-1">
+                                            <button class="text-slate-500 hover:text-blue-600 p-1 rounded-full" title="Editar Usuario"><span class="material-icons text-xl">edit</span></button>
+                                            <button class="text-slate-500 hover:text-green-600 p-1 rounded-full" title="Activar Usuario"><span class="material-icons text-xl">toggle_on</span></button>
+                                            <button class="text-slate-500 hover:text-slate-700 p-1 rounded-full" title="Más Opciones"><span class="material-icons text-xl">more_vert</span></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Paginación y Acciones en Lote -->
+                        <div class="px-4 py-3 flex flex-col sm:flex-row justify-between items-center text-sm border-t border-slate-200 gap-3">
+                            <div class="flex items-center gap-2">
+                                <label for="bulk-action" class="sr-only">Acción en lote</label>
+                                <select id="bulk-action" class="form-select h-9 rounded-md border-slate-300 text-xs pr-7 pl-2">
+                                    <option>Acción en Lote...</option>
+                                    <option>Activar Seleccionados</option>
+                                    <option>Desactivar Seleccionados</option>
+                                    <option>Cambiar Rol...</option>
+                                    <option>Eliminar Seleccionados</option>
+                                </select>
+                                <button class="text-xs font-medium text-blue-600 hover:text-blue-700">Aplicar</button>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <p class="text-slate-600">Mostrando 1-4 de 78 usuarios</p>
+                                <button class="flex items-center justify-center rounded-md h-8 w-8 bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-300 disabled:opacity-50" disabled><span class="material-icons text-lg">chevron_left</span></button>
+                                <span class="font-medium text-slate-700">Página 1 de 20</span>
+                                <button class="flex items-center justify-center rounded-md h-8 w-8 bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-300"><span class="material-icons text-lg">chevron_right</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Contenedor para el footer estandarizado -->
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <!-- Modal para Crear/Editar Usuario (Ejemplo simple, inicialmente oculto) -->
+    <div id="user-modal" class="fixed inset-0 bg-slate-900 bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full p-6 space-y-6">
+            <div class="flex justify-between items-center">
+                <h3 id="user-modal-title" class="text-xl font-semibold text-slate-800">Crear Nuevo Usuario</h3>
+                <button onclick="document.getElementById('user-modal').classList.add('hidden')" class="text-slate-500 hover:text-slate-800 p-1 rounded-full"><span class="material-icons">close</span></button>
+            </div>
+            <form class="space-y-4">
+                <div><label for="modal-user-name" class="block text-sm font-medium text-slate-700 mb-1">Nombre Completo</label><input type="text" id="modal-user-name" class="form-input w-full h-10 rounded-lg border-slate-300 text-sm"></div>
+                <div><label for="modal-user-email" class="block text-sm font-medium text-slate-700 mb-1">Correo Electrónico</label><input type="email" id="modal-user-email" class="form-input w-full h-10 rounded-lg border-slate-300 text-sm"></div>
+                <div><label for="modal-user-role" class="block text-sm font-medium text-slate-700 mb-1">Rol</label><select id="modal-user-role" class="form-select w-full h-10 rounded-lg border-slate-300 text-sm"><option>Operador Contratista</option><option>Supervisor Contratista</option><option>Operador Codelco</option><option>Supervisor Codelco</option><option>Administrador</option></select></div>
+                <div><label for="modal-user-unit" class="block text-sm font-medium text-slate-700 mb-1">Unidad Operativa</label><select id="modal-user-unit" class="form-select w-full h-10 rounded-lg border-slate-300 text-sm"><option>Mina Esperanza</option><option>Mina Futuro</option></select></div>
+                <div class="flex items-center"><input id="modal-force-password-change" type="checkbox" class="form-checkbox h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"><label for="modal-force-password-change" class="ml-2 block text-sm text-slate-700">Requerir cambio de contraseña al primer inicio de sesión</label></div>
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="document.getElementById('user-modal').classList.add('hidden')" class="rounded-lg h-10 px-4 bg-slate-100 text-slate-700 text-sm font-semibold hover:bg-slate-200 border border-slate-300">Cancelar</button>
+                    <button type="submit" class="rounded-lg h-10 px-5 bg-blue-600 text-white text-sm font-semibold shadow-sm hover:bg-blue-700">Guardar Usuario</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Script para cargar componentes estandarizados -->
+    <script src="js/components.js"></script>
+</body>
+</html>

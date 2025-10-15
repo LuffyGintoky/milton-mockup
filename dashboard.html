@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Inter%3Awght%40400%3B500%3B700%3B900&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <title>MineSafe - Panel de Control de Riesgos Críticos</title>
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .material-icons {
+            font-family: 'Material Icons'; font-weight: normal; font-style: normal;
+            font-size: 24px; display: inline-block; line-height: 1;
+            text-transform: none; letter-spacing: normal; word-wrap: normal;
+            white-space: nowrap; direction: ltr;
+            -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+            -moz-osx-font-smoothing: grayscale; font-feature-settings: 'liga';
+        }
+        /* Estilo para el select customizado con Tailwind */
+        .custom-select-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+        .custom-select-wrapper .material-icons {
+            position: absolute;
+            left: 0.5rem; /* 8px */
+            pointer-events: none;
+            color: #64748b; /* slate-500 */
+        }
+        .custom-select-wrapper select {
+            padding-left: 2.25rem; /* Ajustar para el ícono */
+            appearance: none; /* Ocultar flecha nativa */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+        .custom-select-arrow {
+            position: absolute;
+            right: 0.5rem;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-100" style='font-family: Inter, "Noto Sans", sans-serif;'>
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Contenedor para el navbar estandarizado -->
+            <div id="navbar-container"></div>
+
+            <main class="flex-1 px-6 py-8 md:px-10 lg:px-12">
+                <div class="mx-auto max-w-screen-xl">
+                    <div class="mb-6">
+                        <h2 class="text-3xl font-bold leading-tight tracking-tight text-slate-800">Panel de Control</h2>
+                        <p class="text-slate-600 text-base font-normal leading-normal mt-1">Resumen general y estado del riesgo crítico seleccionado.</p>
+                    </div>
+
+                    <!-- Barra de Filtros y Acciones -->
+                    <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between p-4 bg-white rounded-lg shadow-md">
+                        <div class="flex flex-wrap gap-3 items-center">
+                            <!-- Selector de Riesgo Crítico -->
+                            <div class="relative custom-select-wrapper">
+                                <span class="material-icons text-lg">error_outline</span>
+                                <select id="risk-selector" class="h-10 rounded-md border-slate-300 bg-white pl-10 pr-8 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    <option value="rc10" selected>RC10: Pérdida Control Vehículos</option>
+                                    <option value="rc1">RC01: Caída de Rocas</option>
+                                    <option value="rc2">RC02: Exposición a Polvo Sílice</option>
+                                    <option value="rc_all">Ver Todos los Riesgos</option>
+                                </select>
+                                <span class="material-icons text-xl text-slate-500 custom-select-arrow">arrow_drop_down</span>
+                            </div>
+
+                            <!-- Filtro Unidad Operativa -->
+                            <div class="relative">
+                                <button class="flex h-10 items-center justify-center gap-x-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    <span class="material-icons text-lg text-slate-500">business</span>
+                                    <span>Unidad: Todas</span>
+                                    <span aria-hidden="true" class="material-icons text-xl text-slate-500">arrow_drop_down</span>
+                                </button>
+                            </div>
+                            <!-- Filtro Rango de Fechas -->
+                            <div class="relative">
+                                <button class="flex h-10 items-center justify-center gap-x-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    <span class="material-icons text-lg text-slate-500">calendar_today</span>
+                                    <span>Fecha: Últimos 30 días</span>
+                                    <span aria-hidden="true" class="material-icons text-xl text-slate-500">arrow_drop_down</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Botón Registrar Evento -->
+                        <button class="flex items-center justify-center gap-x-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors sm:ml-auto sm:mt-0 mt-3">
+                            <span aria-hidden="true" class="material-icons text-lg">add_circle_outline</span>
+                            <span class="truncate">Registrar Evento</span>
+                        </button>
+                    </div>
+
+                    <!-- KPIs -->
+                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+                        <div class="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-6 md:p-7 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center justify-center size-10 rounded-full bg-green-100 text-green-600">
+                                    <span class="material-icons">verified_user</span>
+                                </div>
+                                <p class="text-slate-700 text-base font-semibold">Cumplimiento RC10</p>
+                            </div>
+                            <p class="text-3xl md:text-4xl font-bold text-green-600">95%</p>
+                            <div class="w-full bg-slate-200 rounded-full h-3 mt-1">
+                                <div class="bg-green-500 h-3 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-6 md:p-7 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center justify-center size-10 rounded-full bg-blue-100 text-blue-600">
+                                    <span class="material-icons">groups</span>
+                                </div>
+                                <p class="text-slate-700 text-base font-semibold">Conductores Habilitados</p>
+                            </div>
+                            <p class="text-3xl md:text-4xl font-bold text-slate-800">1200</p>
+                            <p class="text-sm text-slate-500 flex items-center">
+                                <span class="material-icons text-green-500 text-base mr-1">arrow_upward</span>+50 esta semana
+                            </p>
+                        </div>
+                        <div class="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-6 md:p-7 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center justify-center size-10 rounded-full bg-purple-100 text-purple-600">
+                                    <span class="material-icons">assignment</span>
+                                </div>
+                                <p class="text-slate-700 text-base font-semibold">Eventos Registrados (RC10)</p>
+                            </div>
+                            <p class="text-3xl md:text-4xl font-bold text-slate-800">350</p>
+                            <p class="text-sm text-red-600 flex items-center">
+                                <span class="material-icons text-red-500 text-base mr-1">warning</span>15 alertas activas
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Gráfico y Alertas -->
+                    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-8">
+                        <div class="lg:col-span-2 rounded-xl border border-slate-200 bg-white p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                            <h3 class="text-xl font-semibold text-slate-800 mb-5">Estado de Controles del Riesgo 10</h3>
+                            <div class="flex flex-col md:flex-row items-center justify-around gap-6">
+                                <div class="relative size-56 md:size-64">
+                                    <svg class="size-full" viewBox="0 0 36 36">
+                                        <path class="stroke-slate-200" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3.8"></path>
+                                        <path class="stroke-green-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="60, 100" stroke-linecap="round" stroke-width="3.8"></path>
+                                        <path class="stroke-yellow-400" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="25, 100" stroke-dashoffset="-60" stroke-linecap="round" stroke-width="3.8"></path>
+                                        <path class="stroke-red-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="15, 100" stroke-dashoffset="-85" stroke-linecap="round" stroke-width="3.8"></path>
+                                    </svg>
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                        <span class="text-3xl md:text-4xl font-bold text-slate-800">78%</span>
+                                        <span class="text-sm md:text-base text-slate-600 text-center">Controles Activos</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-3 text-sm w-full md:w-auto">
+                                    <div class="flex items-center gap-x-3 p-2.5 rounded-md hover:bg-slate-100 transition-colors">
+                                        <span class="inline-block h-3.5 w-3.5 rounded-full bg-green-500"></span>
+                                        <div>
+                                            <span class="font-medium text-slate-700">Cumplimiento (60%)</span>
+                                            <p class="text-xs text-slate-500">Controles verificados y operativos.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-x-3 p-2.5 rounded-md hover:bg-slate-100 transition-colors">
+                                        <span class="inline-block h-3.5 w-3.5 rounded-full bg-yellow-400"></span>
+                                        <div>
+                                            <span class="font-medium text-slate-700">En Revisión (25%)</span>
+                                            <p class="text-xs text-slate-500">Controles pendientes de verificación.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-x-3 p-2.5 rounded-md hover:bg-slate-100 transition-colors">
+                                        <span class="inline-block h-3.5 w-3.5 rounded-full bg-red-500"></span>
+                                        <div>
+                                            <span class="font-medium text-slate-700">Requiere Acción (15%)</span>
+                                            <p class="text-xs text-slate-500">Controles no conformes o vencidos.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-1 rounded-xl border border-slate-200 bg-white p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                            <div class="flex justify-between items-center mb-5">
+                                <h3 class="text-xl font-semibold text-slate-800">Alertas Recientes</h3>
+                                <a class="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline" href="#">Ver todas</a>
+                            </div>
+                            <div class="space-y-3.5">
+                                <div class="flex items-start gap-3 rounded-lg p-4 bg-yellow-50 border border-yellow-300 hover:shadow-md transition-shadow duration-200 cursor-pointer">
+                                    <div class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-yellow-100 text-yellow-600">
+                                        <span aria-hidden="true" class="material-icons text-xl">airline_seat_individual_suite</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-yellow-800">Alerta de Somnolencia</p>
+                                        <p class="text-xs text-yellow-700">Unidad 5, Op. J. Pérez - 10:32 AM</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 rounded-lg p-4 bg-red-50 border border-red-300 hover:shadow-md transition-shadow duration-200 cursor-pointer">
+                                    <div class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600">
+                                        <span aria-hidden="true" class="material-icons text-xl">checklist_rtl</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-red-800">Checklist Vencido</p>
+                                        <p class="text-xs text-red-700">Unidad 3, Vehículo #102 - Hace 2 días</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 rounded-lg p-4 bg-yellow-50 border border-yellow-300 hover:shadow-md transition-shadow duration-200 cursor-pointer">
+                                    <div class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-yellow-100 text-yellow-600">
+                                        <span aria-hidden="true" class="material-icons text-xl">speed</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-yellow-800">Alerta de Velocidad</p>
+                                        <p class="text-xs text-yellow-700">Vehículo #205, Unidad 2 - 02:15 PM</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 rounded-lg p-4 bg-green-50 border border-green-300 hover:shadow-md transition-shadow duration-200 cursor-pointer">
+                                   <div class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-600">
+                                        <span aria-hidden="true" class="material-icons text-xl">check_circle_outline</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-green-800">Checklist Completado</p>
+                                        <p class="text-xs text-green-700">Vehículo #301, Unidad 1 - 09:00 AM</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="bg-white border-t border-slate-300 px-6 py-5 mt-auto">
+                <!-- Contenedor para el footer estandarizado -->
+                <div id="footer-container"></div>
+            </footer>
+        </div>
+    </div>
+    <!-- Script para cargar componentes estandarizados -->
+    <script src="js/components.js"></script>
+</body>
+</html>
